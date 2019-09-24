@@ -16,6 +16,10 @@ const amazon = {
         })
 
         page = await browser.newPage();
+        page.on('console', message => {
+            console.log(`Message from puppeteer: ${message.text()}`);
+        })
+
 
         await page.goto(BASE_URL, { waitUntil: 'networkidle2' });
 
@@ -32,9 +36,12 @@ const amazon = {
 
             let title = document.querySelector('#productTitle').innerText;
             let manufacturer = document.querySelector('#bylineInfo').innerText;
-            let currentPrice = document.querySelector('#priceblock_ourprice').innerText;
+            let currentPrice = document.querySelector('#priceblock_ourprice,#priceblock_dealprice').innerText;
             let rating = document.querySelector('#acrPopover').getAttribute('title');
             let totalRatings = document.querySelector('#acrCustomerReviewText').innerText;
+
+            console.log('test');
+            console.log('another test message');
 
             return {
                 title,
