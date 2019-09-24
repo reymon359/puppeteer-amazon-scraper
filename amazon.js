@@ -22,6 +22,33 @@ const amazon = {
         console.log('Initialization completed..');
     },
 
+    getProductDetails: async(link) => {
+
+        console.log(`Going to the Product Page.. ( ${link} )`);
+
+        await page.goto(link, { waitUntil: 'networkidle2' });
+
+        let details = await page.evaluate(() => {
+
+            let title = document.querySelector('#productTitle').innerText;
+            let manufacturer = document.querySelector('#bylineInfo').innerText;
+            let currentPrice = document.querySelector('#priceblock_ourprice').innerText;
+            let rating = document.querySelector('#acrPopover').getAttribute('title');
+            let totalRatings = document.querySelector('#acrCustomerReviewText').innerText;
+
+            return {
+                title,
+                manufacturer,
+                currentPrice,
+                rating,
+                totalRatings
+            }
+
+        });
+
+        return details;
+    },
+
     end: async() => {
         console.log('Stopping the scraper..');
 
